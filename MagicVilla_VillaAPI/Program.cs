@@ -1,4 +1,6 @@
 
+using MagicVilla_VillaAPI.logging;
+
 namespace MagicVilla_VillaAPI
 {
     public class Program
@@ -8,10 +10,19 @@ namespace MagicVilla_VillaAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            //Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
+            //    .WriteTo.File("log/Villalogs.exe",rollingInterval: RollingInterval.Day).CreateLogger();
 
-            builder.Services.AddControllers();
+            //builder.Host.UseSerilog();
+
+            builder.Services.AddControllers(option =>
+            {
+                //option.ReturnHttpNotAcceptable = true;
+            }
+            ).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
             builder.Services.AddSwaggerGen();
             builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSingleton < ILogging, LoggingV2>();
 
             var app = builder.Build();
 
