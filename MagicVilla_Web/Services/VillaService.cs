@@ -4,6 +4,7 @@ using MagicVilla_Web.Models.Dtos;
 using MagicVilla_Web.Services.IServices;
 using static MagicVilla_Utility.SD;
 using System;
+using MagicVilla_VillaAPI.Models;
 
 namespace MagicVilla_Web.Services
 {
@@ -64,5 +65,7 @@ namespace MagicVilla_Web.Services
                 //  / api / VillaAPIController /
             });
         }
+
+        
     }
 }

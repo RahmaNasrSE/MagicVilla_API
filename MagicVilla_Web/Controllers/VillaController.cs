@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MagicVilla_VillaAPI.Models;
 using MagicVilla_Web.Models;
 using MagicVilla_Web.Models.Dtos;
 using MagicVilla_Web.Services.IServices;
@@ -71,7 +72,7 @@ namespace MagicVilla_Web.Controllers
 
             return View(model);
         }
-        [HttpGet("Villa/UpdateVilla")]
+        
         public async Task<IActionResult> UpdateVilla(int villaId)
         {
             var response = await _villaService.GetAsync<APIResponse>(villaId);
@@ -80,7 +81,7 @@ namespace MagicVilla_Web.Controllers
                 VillaDto model = JsonConvert.DeserializeObject<VillaDto>(Convert.ToString(response.Result));
                 return View(_mapper.Map<VillaUpDateDto>(model));
             }
-            return NotFound();
+            return RedirectToAction(nameof(IndexVilla));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -98,6 +99,7 @@ namespace MagicVilla_Web.Controllers
             return View(model);
         }
 
+
         public async Task<IActionResult> DeleteVilla(int villaId)
         {
             var response = await _villaService.GetAsync<APIResponse>(villaId);
@@ -106,11 +108,11 @@ namespace MagicVilla_Web.Controllers
                 VillaDto model = JsonConvert.DeserializeObject<VillaDto>(Convert.ToString(response.Result));
                 return View(model);
             }
-            return NotFound();
+            return RedirectToAction(nameof(IndexVilla));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateVilla(VillaDto model)
+        public async Task<IActionResult> DeleteVilla(VillaDto model)
         {
             
                 var response = await _villaService.DeleteAsync<APIResponse>(model.Id);
