@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MagicVilla_Web.Models.Dtos.VillaDto>
+
+@{
+    ViewData["Title"] = "Villa List";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary fw-bold">Villa List</h2>
+        <a asp-controller="Villa" asp-action="CreateVilla" class="btn btn-outline-primary">
+            <i class="bi bi-plus-square-fill"></i> Create New Villa
+        </a>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Name</th>
+                <th>Occupancy</th>
+                <th>Price</th>
+                <th>Actions</th> <!-- تعديل العنوان -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var villa in Model)
+            {
+                <tr>
+                    <td>@villa.Name</td>
+                    <td>@villa.Accupancy</td>
+                    <td>$@villa.Rate.ToString("N2")</td>
+                    <td>
+                        <!-- زرار التعديل بعد التعديل -->
+                        <a asp-controller="Villa" asp-action="UpdateVilla" asp-route-villaId="@villa.Id" class="btn btn-warning">
+                            ✏️ Edit
+                        </a>
+
+
+                        <!-- زرار الحذف -->
+                        <a asp-controller="Villa" asp-action="DeleteVilla" asp-route-villaId="@villa.Id" class="btn btn-danger">
+                            <i class="bi bi-trash-fill"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
