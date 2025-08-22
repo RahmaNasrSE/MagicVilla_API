@@ -12,7 +12,7 @@ using System.Net;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
-    [Route("api/[Controller]")]
+    [Route("api/VillaNumberAPI")]
     [ApiController]
     public class VillaNumberAPIController : ControllerBase
     {
@@ -40,7 +40,7 @@ namespace MagicVilla_VillaAPI.Controllers
             //_logger.Log("Getting all Vallias" ," ");
             try
             {
-                IEnumerable<VillaNumber> villaNumberList = await _dbVillaNumber.GetAllAsyna();
+                IEnumerable<VillaNumber> villaNumberList = await _dbVillaNumber.GetAllAsyna(includeProperties:"villa");
                 _response.Result = _mapper.Map<List<VillaNumberDto>>(villaNumberList);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
