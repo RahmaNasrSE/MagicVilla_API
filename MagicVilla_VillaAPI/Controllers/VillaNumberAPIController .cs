@@ -99,12 +99,12 @@ namespace MagicVilla_VillaAPI.Controllers
             { 
             if(await _dbVillaNumber.GetAsyna(u => u.VillaNo == villaNumberCreateDto.VillaNo)!= null)
             {
-                ModelState.AddModelError("Custom Error", "Villa  Already Exists!");
+                ModelState.AddModelError("ErrorMessage", "Villa Number Already Exist!");
                 return BadRequest(ModelState);
             }
             if(await _dbVilla.GetAsyna(u => u.Id == villaNumberCreateDto.VillaID) == null)
             {
-                ModelState.AddModelError("custom errer", "villaId is Invaild");
+                ModelState.AddModelError("ErrorMessage", "villaId is Invaild");
                 return BadRequest(ModelState);
             }
             if (villaNumberCreateDto == null)
@@ -118,7 +118,7 @@ namespace MagicVilla_VillaAPI.Controllers
             _response.Result = _mapper.Map<VillaNumberDto>(villaNumber);
             _response.StatusCode = HttpStatusCode.Created;
 
-            return CreatedAtRoute("GetVilla",new { id = villaNumber.VillaNo } , _response);
+            return CreatedAtRoute("GetVillaNumber",new { id = villaNumber.VillaNo } , _response);
             }
             catch (Exception ex)
             {
@@ -162,7 +162,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [HttpPut("{id:int}", Name = "UpdateVillaNumber")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> UpdateVillaNumbersasync(int id , [FromBody] VillaNumberUdatedDto villaNumberUpDateDto)
+        public async Task<ActionResult<APIResponse>> UpdateVillaNumbersasync(int id , [FromBody] VillaNumberUpdateDto villaNumberUpDateDto)
         {
             try
             {
@@ -172,7 +172,7 @@ namespace MagicVilla_VillaAPI.Controllers
             }
             if (await _dbVilla.GetAsyna(u => u.Id == villaNumberUpDateDto.VillaID) == null)
             {
-                ModelState.AddModelError("custom errer", "villaId is Invaild");
+                ModelState.AddModelError("ErrorMessage", "villaId is Invaild");
                 return BadRequest(ModelState);
             }
 

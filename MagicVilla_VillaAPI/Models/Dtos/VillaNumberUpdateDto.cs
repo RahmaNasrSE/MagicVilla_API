@@ -2,7 +2,7 @@
 
 namespace MagicVilla_VillaAPI.Models.Dtos
 {
-    public class VillaNumberUdatedDto
+    public class VillaNumberUpdateDto
     {
         public int VillaNo { get; set; }
         [Required]

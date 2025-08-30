@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MagicVilla_VillaAPI.Models.Dtos;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MagicVilla_VillaAPI.Models
@@ -13,5 +14,10 @@ namespace MagicVilla_VillaAPI.Models
         public string SpecialDetails { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+
+        public static implicit operator VillaNumber(VillaNumberDto v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

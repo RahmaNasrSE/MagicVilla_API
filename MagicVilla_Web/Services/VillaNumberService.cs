@@ -58,7 +58,7 @@ namespace MagicVilla_Web.Services
             });
         }
 
-        public Task<T> UpdateAsync<T>(VillaNumberUdatedDto dto)
+        public Task<T> UpdateAsync<T>(VillaNumberUpdateDto dto)
         {
             return SendAsync<T>(new APIRequest()
             {

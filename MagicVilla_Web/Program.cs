@@ -1,5 +1,7 @@
 using MagicVilla_Web.Services;
 using MagicVilla_Web.Services.IServices;
+using AutoMapper;
+using MagicVilla_Web;
 
 namespace MagicVilla_Web
 {

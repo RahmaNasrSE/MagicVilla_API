@@ -20,6 +20,7 @@ namespace MagicVilla_VillaAPI
             });
             builder.Services.AddAutoMapper(typeof(MappingConfig));
             builder.Services.AddScoped<IvillaRepository , VillaRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IvillaNumberRepository, VillaNumberRepository>();
             //Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
             //    .WriteTo.File("log/Villalogs.exe",rollingInterval: RollingInterval.Day).CreateLogger();

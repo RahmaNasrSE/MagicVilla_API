@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MagicVilla_Web.Models.Dtos.VillaNumberDto>
+﻿@model IEnumerable<MagicVilla_VillaAPI.Models.Dtos.VillaNumberDto>
 
 @{
     ViewData["Title"] = "Villa Number List";
@@ -28,13 +28,13 @@
                     <td>@villa.VillaNo</td>
                     <td>
                         <!-- زرار التعديل بعد التعديل -->
-                        <a asp-controller="Villa" asp-action="UpdateVillaNumber" asp-route-villaNo="@villa.VillaNo" class="btn btn-warning">
+                        <a asp-controller="VillaNumber" asp-action="UpdateVillaNumber" asp-route-villaNo="@villa.VillaNo" class="btn btn-warning">
                             <i class="bi bi-pencil-fill"></i>
                         </a>
 
 
                         <!-- زرار الحذف -->
-                        <a asp-controller="Villa" asp-action="DeleteVillaNumber" asp-route-villaNo="@villa.VillaNo" class="btn btn-danger">
+                        <a asp-controller="VillaNumber" asp-action="DeleteVillaNumber" asp-route-villaNo="@villa.VillaNo" class="btn btn-danger">
                             <i class="bi bi-trash-fill"></i>
                         </a>
                     </td>
