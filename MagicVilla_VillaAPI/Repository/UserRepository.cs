@@ -32,7 +32,7 @@ namespace MagicVilla_VillaAPI.Repository
         public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
         {
             var user = _db.LocalUsers.FirstOrDefault(u => u.UserName.ToLower() ==
-            LoginRequestDTO.UserName.ToLower() && u.Password == LoginRequestDTO.Password);
+            loginRequestDTO.UserName.ToLower() && u.Password == loginRequestDTO.Password);
             if (user == null)
             {
                 return new LoginResponseDTO()
