@@ -3,6 +3,7 @@ using MagicVilla_Web.Models;
 using MagicVilla_Web.Services.IServices;
 using Newtonsoft.Json;
 using System;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -14,10 +15,10 @@ namespace MagicVilla_Web.Services
     {
         public IHttpClientFactory httpClient { get; set; }
 
-        public APIResponse respinseModel { get ; set ; }
+        public APIResponse respinseModel { get; set; }
         public BaseService(IHttpClientFactory httpClient)
         {
-            this.respinseModel = new() ;
+            this.respinseModel = new();
             this.httpClient = httpClient;
         }
         public async Task<T> SendAsync<T>(APIRequest apiRequest)
@@ -57,10 +58,14 @@ namespace MagicVilla_Web.Services
                 }
 
                 HttpResponseMessage apiResponse = await client.SendAsync(message);
+                if (!string.IsNullOrEmpty(apiRequest.Token))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
+                }
 
                 if (apiResponse == null || apiResponse.Content == null)
                 {
-                    // API itself didn’t respond properly
+
                     var fail = new APIResponse
                     {
                         IsSuccess = false,
@@ -85,7 +90,7 @@ namespace MagicVilla_Web.Services
 
                 try
                 {
-                    // حاول تحوله لـ APIResponse
+
                     var ApiResponse = JsonConvert.DeserializeObject<APIResponse>(apiContent);
 
                     if (ApiResponse == null)
@@ -93,9 +98,9 @@ namespace MagicVilla_Web.Services
                         throw new Exception("Failed to deserialize API response into APIResponse.");
                     }
 
-                    // special handling for BadRequest/NotFound
-                    if (apiResponse.StatusCode == System.Net.HttpStatusCode.BadRequest ||
-                        apiResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
+
+                    if (apiResponse != null && (apiResponse.StatusCode == System.Net.HttpStatusCode.BadRequest ||
+                        apiResponse.StatusCode == System.Net.HttpStatusCode.NotFound))
                     {
                         ApiResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
                         ApiResponse.IsSuccess = false;
@@ -106,12 +111,10 @@ namespace MagicVilla_Web.Services
                 }
                 catch
                 {
-                    // fallback: رجعه كـ T مباشر لو مش APIResponse
                     var ExceptionResponse = JsonConvert.DeserializeObject<T>(apiContent);
                     return ExceptionResponse;
                 }
 
-                // default: حاول تحوله للنوع المطلوب
                 var finalResponse = JsonConvert.DeserializeObject<T>(apiContent);
                 return finalResponse;
             }
@@ -128,75 +131,9 @@ namespace MagicVilla_Web.Services
                 return APIResponse;
             }
         }
-
-        //public async Task<T> SendAsync<T>(APIRequest apiRequest)
-        //{
-        //    try
-        //    {
-        //        var client = httpClient.CreateClient("MagicAPI");
-        //        HttpRequestMessage message = new HttpRequestMessage();
-        //        message.Headers.Add("Accept", "application/json");
-        //        message.RequestUri = new Uri(apiRequest.Url);
-        //        if (apiRequest.Data != null)
-        //        {
-        //            message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data),
-        //                                   Encoding.UTF8, "application/json");
-        //        }
-        //        switch (apiRequest.ApiType)
-        //        {
-        //            case SD.ApiType.POST:
-        //                message.Method = HttpMethod.Post;
-        //                break;
-        //            case SD.ApiType.PUT:
-        //                message.Method = HttpMethod.Put;
-        //                break;
-        //            case SD.ApiType.DELETE:
-        //                message.Method = HttpMethod.Delete;
-        //                break;
-        //            default:
-        //                message.Method = HttpMethod.Get;
-        //                break;
-        //        }
-        //        HttpResponseMessage apiResponse = null;
-        //        apiResponse = await client.SendAsync(message);
-        //        var apiContent = await apiResponse.Content.ReadAsStringAsync();
-        //        try
-        //        {
-        //            APIResponse ApiResponse = JsonConvert.DeserializeObject<APIResponse>(apiContent);
-        //            if (apiResponse.StatusCode == System.Net.HttpStatusCode.BadRequest ||
-        //                apiResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
-        //            {
-        //                ApiResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
-        //                ApiResponse.IsSuccess = false;
-        //                var res = JsonConvert.SerializeObject(ApiResponse);
-        //                var returnObj = JsonConvert.DeserializeObject<T>(res);
-        //                return returnObj;
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            var ExceptionResponse = JsonConvert.DeserializeObject<T>(apiContent);
-        //            return ExceptionResponse;
-        //        }
-        //        var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);
-        //        return APIResponse;
-
-
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        var dto = new APIResponse
-        //        {
-        //            ErrorMessage = new List<string> { Convert.ToString(e.Message) },
-        //            IsSuccess = false
-        //        };
-        //        var res = JsonConvert.SerializeObject(dto);
-        //        var APIResponse = JsonConvert.DeserializeObject<T>(res);
-        //        return APIResponse;
-        //    }
-
-
-        //}
     }
 }
+    
+
+
+
