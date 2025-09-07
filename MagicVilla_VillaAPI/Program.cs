@@ -56,13 +56,13 @@ namespace MagicVilla_VillaAPI
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IvillaNumberRepository, VillaNumberRepository>();
 
-            // ? API Versioning
+            // API Versioning
             builder.Services.AddApiVersioning(options =>
             {
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.ReportApiVersions = true;
-                options.ApiVersionReader = new UrlSegmentApiVersionReader(); // ??? ????
+                options.ApiVersionReader = new UrlSegmentApiVersionReader(); 
             });
 
             builder.Services.AddVersionedApiExplorer(options =>
